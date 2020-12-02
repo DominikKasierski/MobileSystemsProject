@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CovidApp</string>
+    <string name="required_fields">All fields are required</string>
+    <string name="required_length_password">Password must be longer than 8 characters</string>
+    <string name="register_error">You can not register with this email or password</string>
+    <string name="login_error">Authentication failed</string>
+    <string name="login">Login</string>
+    <string name="register">register</string>
+    <string name="create_account">Create a new account</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
