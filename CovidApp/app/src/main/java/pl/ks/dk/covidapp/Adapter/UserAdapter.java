@@ -1,6 +1,7 @@
 package pl.ks.dk.covidapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import pl.ks.dk.covidapp.MessageActivity;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
 
@@ -44,6 +46,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         } else {
             Glide.with(mContext).load(user.getImageURL()).into(holder.profile_image);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (mContext, MessageActivity.class);
+                intent.putExtra("userid", user.getId());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
