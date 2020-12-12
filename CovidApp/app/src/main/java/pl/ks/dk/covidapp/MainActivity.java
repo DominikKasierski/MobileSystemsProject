@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.ks.dk.covidapp.Fragments.ChatsFragment;
+import pl.ks.dk.covidapp.Fragments.ProfileFragment;
 import pl.ks.dk.covidapp.Fragments.UsersFragment;
 import pl.ks.dk.covidapp.Model.User;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         viewPager.setAdapter(viewPagerAdapter);
 
