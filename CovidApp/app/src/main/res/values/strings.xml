@@ -16,4 +16,5 @@
     <string name="type_message">Type a message…</string>
     <string name="empty_message">You can not send empty message</string>
     <string name="profile">Profile</string>
+    <string name="search">Search...</string>
 </resources>
