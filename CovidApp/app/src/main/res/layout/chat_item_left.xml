@@ -14,7 +14,6 @@
         android:id="@+id/show_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/profile_image"
         android:background="@drawable/background_left"
         android:textSize="18sp"
