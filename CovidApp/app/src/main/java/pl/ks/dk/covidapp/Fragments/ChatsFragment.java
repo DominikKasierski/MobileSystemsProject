@@ -24,6 +24,7 @@ import java.util.List;
 
 import pl.ks.dk.covidapp.Adapter.UserAdapter;
 import pl.ks.dk.covidapp.Model.Chat;
+import pl.ks.dk.covidapp.Model.Chatlist;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
 
@@ -38,7 +39,7 @@ public class ChatsFragment extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
-    private List<String> usersList;
+    private List<Chatlist> usersList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,46 +54,40 @@ public class ChatsFragment extends Fragment {
 
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-
-                    if (chat.getSender().equals(firebaseUser.getUid())) {
-                        usersList.add(chat.getReceiver());
-                    }
-
-                    if (chat.getReceiver().equals(firebaseUser.getUid())) {
-                        usersList.add(chat.getSender());
-                    }
+                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                    usersList.add(chatlist);
                 }
-                readChats();
+
+                chatList();
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
+
         return view;
     }
 
-    private void readChats() {
-
+    private void chatList() {
         mUsers = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    for (String id : usersList) {
-                        assert user != null;
-                        if (user.getId().equals(id)) {
+                    for (Chatlist chatlist : usersList) {
+                        if(user.getId().equals(chatlist.getId())) {
                             mUsers.add(user);
-                            break;
                         }
                     }
                 }
@@ -106,4 +101,5 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
+
 }
