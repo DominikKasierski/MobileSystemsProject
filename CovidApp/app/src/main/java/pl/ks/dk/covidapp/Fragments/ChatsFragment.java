@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import pl.ks.dk.covidapp.Adapter.UserAdapter;
 import pl.ks.dk.covidapp.Model.Chat;
 import pl.ks.dk.covidapp.Model.Chatlist;
 import pl.ks.dk.covidapp.Model.User;
+import pl.ks.dk.covidapp.Notifications.Token;
 import pl.ks.dk.covidapp.R;
 
 
@@ -73,7 +76,16 @@ public class ChatsFragment extends Fragment {
             }
         });
 
+        //TODO: To może być źle
+        updateToken(FirebaseMessaging.getInstance().getToken().toString());
+
         return view;
+    }
+
+    private void updateToken(String token) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(firebaseUser.getUid()).setValue(token1);
     }
 
     private void chatList() {
