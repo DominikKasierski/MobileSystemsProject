@@ -1,20 +1,22 @@
 package pl.ks.dk.covidapp.Notifications;
 
-import androidx.annotation.NonNull;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessagingService;
-//TODO:JAK NIE DZIALA TO PRZEZ TO
-public class MyFirebaseIdService extends FirebaseMessagingService {
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
+public class MyFirebaseIdService extends FirebaseInstanceIdService {
+
     @Override
-    public void onNewToken(@NonNull String s) {
+    public void onTokenRefresh() {
+        super.onTokenRefresh();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        String refreshToken = FirebaseInstanceId.getInstance().getToken();
         if (firebaseUser != null) {
-            updateToken(s);
+            updateToken(refreshToken);
         }
     }
 
@@ -25,6 +27,4 @@ public class MyFirebaseIdService extends FirebaseMessagingService {
         Token token = new Token(refreshToken);
         reference.child(firebaseUser.getUid()).setValue(token);
     }
-
-
 }

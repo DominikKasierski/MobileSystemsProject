@@ -76,8 +76,7 @@ public class ChatsFragment extends Fragment {
             }
         });
 
-        //TODO: To może być źle
-        updateToken(FirebaseMessaging.getInstance().getToken().toString());
+        updateToken(FirebaseInstanceId.getInstance().getToken());
 
         return view;
     }

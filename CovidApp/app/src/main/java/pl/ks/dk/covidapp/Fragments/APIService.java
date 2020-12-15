@@ -12,9 +12,7 @@ public interface APIService {
             {
                     "Content-Type:application/json",
                     "Authorization:key=AAAAtfZSKNM:APA91bFTKmCga3h7MC8JjsLWs3Ibbxr_4Sui6jKZl5mzTOhv3uhRbPF28wIFtFscda9XAWb-sDdVoJ8yV0fv2bj8yggZDh02ZgizXICOHaa9fGtfRvsFyjbo0HJYNaRM-uqwaZWU_Oo1"
-
             }
-
     )
 
     @POST("fcm/send")
