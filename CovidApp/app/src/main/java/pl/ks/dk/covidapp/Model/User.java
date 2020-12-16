@@ -1,48 +1,65 @@
 package pl.ks.dk.covidapp.Model;
 
 public class User {
-  private String id;
-  private String username;
-  private String imageURL;
-  private String status;
-  private String search;
+    private String id;
+    private String name;
+    private String surname;
+    private String username;
+    private String pesel;
+    private String phoneNumber;
+    private String dateOfBirth;
+    private String imageURL;
+    private String status;
+    private String search;
+    private String role;
 
-  public User(String id, String username, String imageURL, String status, String search) {
-    this.id = id;
-    this.username = username;
-    this.imageURL = imageURL;
-    this.status = status;
-    this.search = search;
-  }
 
-  public User() {
-  }
+    public User(String id, String name, String surname, String username, String pesel, String phoneNumber, String dateOfBirth, String imageURL, String status, String search, String role) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.pesel = pesel;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.imageURL = imageURL;
+        this.status = status;
+        this.search = search;
+        this.role = role;
+    }
 
-  public String getId() {
-    return id;
-  }
+    public User() {
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getImageURL() {
-    return imageURL;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public String getStatus() {
-    return status;
-  }
+    public String getImageURL() {
+        return imageURL;
+    }
 
-  public void setStatus(String status) {
-    this.status = status;
-  }
+    public String getStatus() {
+        return status;
+    }
 
-  public String getSearch() {
-    return search;
-  }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-  public void setSearch(String search) {
-    this.search = search;
-  }
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }

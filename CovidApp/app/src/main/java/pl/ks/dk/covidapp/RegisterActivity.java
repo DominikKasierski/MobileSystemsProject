@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_phone_number = phoneNumber.getText().toString();
                 String txt_date_of_birth = dateOfBirth.getText().toString();
 
-                boolean valid =  Stream.of(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)
+                boolean valid = Stream.of(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)
                         .allMatch(StringUtils::isNotBlank);
 
                 if (!valid) {
@@ -99,47 +99,50 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (txt_password.length() < 8) {
                     Toast.makeText(RegisterActivity.this, R.string.required_length_password, Toast.LENGTH_SHORT).show();
                 } else {
-                    register(txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth);
+                    register(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth);
                 }
             }
         });
     }
 
-    private void register(String username, String email, String password, String pesel, String phoneNumber, String dateOfBirth) {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                        String userId = firebaseUser.getUid();
+    private void register(String name, String surname, String username, String email, String password, String pesel, String phoneNumber, String dateOfBirth) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
+                    String userId = firebaseUser.getUid();
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                    reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("id", userId);
-                        hashMap.put("username", username);
-                        hashMap.put("pesel", pesel);
-                        hashMap.put("phoneNumber", phoneNumber);
-                        hashMap.put("dateOfBirth", dateOfBirth);
-                        hashMap.put("imageURL", "default");
-                        hashMap.put("status", "offline");
-                        hashMap.put("search", username.toLowerCase());
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("id", userId);
+                    hashMap.put("name", name);
+                    hashMap.put("surname", surname);
+                    hashMap.put("username", username);
+                    hashMap.put("pesel", pesel);
+                    hashMap.put("phoneNumber", phoneNumber);
+                    hashMap.put("dateOfBirth", dateOfBirth);
+                    hashMap.put("imageURL", "default");
+                    hashMap.put("status", "offline");
+                    hashMap.put("search", username.toLowerCase());
+                    hashMap.put("role", "patient");
 
-                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
+                    reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
                             }
-                        });
-                    } else {
-                        Toast.makeText(RegisterActivity.this, R.string.register_error, Toast.LENGTH_SHORT).show();
-                    }
+                        }
+                    });
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.register_error, Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+        });
     }
 }

@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
+    String role;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -64,13 +65,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.getUsername());
-                if (user.getImageURL().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+                if (user != null) {
+                    role = user.getRole();
+                    username.setText(user.getUsername());
+                    if (user.getImageURL().equals("default")) {
+                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+                    }
                 }
-
             }
 
             @Override
@@ -90,18 +93,21 @@ public class MainActivity extends AppCompatActivity {
                 int unread = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
-                    if(chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()) {
+                    if (chat != null && chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()) {
                         unread++;
                     }
                 }
 
-                if(unread == 0) {
+                if (unread == 0) {
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                 } else {
-                    viewPagerAdapter.addFragment(new ChatsFragment(), "("+unread+") Chats");
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "(" + unread + ") Chats");
                 }
 
-                viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+                if (role.equals("doctor")) {
+                    viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+                }
+
                 viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
                 viewPager.setAdapter(viewPagerAdapter);
