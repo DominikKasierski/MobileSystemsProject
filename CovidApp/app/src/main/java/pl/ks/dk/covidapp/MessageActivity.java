@@ -172,6 +172,7 @@ public class MessageActivity extends AppCompatActivity {
 
         reference.child("Chats").push().setValue(hashMap);
 
+        //dodawanie nowych rozmów do listy czatów
         DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(firebaseUser.getUid())
                 .child(userid);
@@ -181,6 +182,9 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     chatRef.child("id").setValue(userid);
+
+                    //dodanie nowego chatu odbiorcy
+                    updateReceiverChatList(userid, firebaseUser.getUid());
                 }
             }
 
@@ -208,6 +212,13 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void updateReceiverChatList(String receiverId, String senderId) {
+                            DatabaseReference secondChatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+                            .child(receiverId)
+                            .child(senderId);
+                    secondChatRef.child("id").setValue(senderId);
     }
 
     private void sendNotification(String receiver, final String username, final String message) {
