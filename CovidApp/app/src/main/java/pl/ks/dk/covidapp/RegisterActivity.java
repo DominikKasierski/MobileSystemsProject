@@ -8,7 +8,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +25,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -75,6 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
                         dateOfBirth.setText(date);
                     }
                 }, year, month, day);
+
+                long maxTime = new Date().getTime();
+                pickerDialog.getDatePicker().setMaxDate(maxTime);
                 pickerDialog.show();
             }
         });

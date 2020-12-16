@@ -32,6 +32,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.ks.dk.covidapp.Fragments.ChatsFragment;
+import pl.ks.dk.covidapp.Fragments.DecisionTreeFragment;
 import pl.ks.dk.covidapp.Fragments.ProfileFragment;
 import pl.ks.dk.covidapp.Fragments.UsersFragment;
 import pl.ks.dk.covidapp.Model.Chat;
@@ -105,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (role.equals("doctor")) {
-                    viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+                    viewPagerAdapter.addFragment(new UsersFragment(), "Patients");
+                } else {
+                    viewPagerAdapter.addFragment(new DecisionTreeFragment(), "Diagnosis");
                 }
 
                 viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");

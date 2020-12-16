@@ -27,4 +27,24 @@
     <string name="date_of_birth">Date of birth</string>
     <string name="surname">Surname</string>
     <string name="name">Name</string>
+    <string name="diagnose">W celu uzyskania diagnozy odpowiedz na poniższe pytania</string>
+    <string name="question1">question1</string>
+    <string name="question2">question2</string>
+    <string name="question3">question3</string>
+    <string name="question4">question4</string>
+    <string name="question5">question5</string>
+    <string name="question6">question6</string>
+    <string name="question7">question7</string>
+    <string name="question8">question8</string>
+    <string name="question9">question9</string>
+    <string name="question10">question10</string>
+    <string name="question11">question11</string>
+    <string name="question12">question12</string>
+    <string name="question13">question13</string>
+    <string name="question14">question14</string>
+    <string name="question15">question15</string>
+    <string name="question16">question16</string>
+    <string name="answer">Answer</string>
+    <string name="confirm">Confirm</string>
+    <string name="number_range">Numbers should be between 1 and 5</string>
 </resources>
