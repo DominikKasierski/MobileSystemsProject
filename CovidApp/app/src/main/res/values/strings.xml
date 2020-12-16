@@ -22,4 +22,9 @@
     <string name="your_email">Your email</string>
     <string name="reset">Reset</string>
     <string name="clicking_reset_password">By clicking RESET, you will receive an email to reset your password</string>
+    <string name="pesel">PESEL</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="surname">Surname</string>
+    <string name="name">Name</string>
 </resources>
