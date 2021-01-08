@@ -87,13 +87,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (viewPagerAdapter.getCount() != 0) {
                         if (isWaiting.equals("true")) {
-                            deleteFragments();
-                            addFragment(new WithoutDecisionTreeFragment(), "Diagnosis");
-                            addFragment(new ProfileFragment(), "Profile");
+                            setFragment(new WithoutDecisionTreeFragment(), "Diagnosis", 1);
                         } else {
-                            deleteFragments();
-                            addFragment(new DecisionTreeFragment(), "Diagnosis");
-                            addFragment(new ProfileFragment(), "Profile");
+                            setFragment(new DecisionTreeFragment(), "Diagnosis", 1);
                         }
                     }
                 }
@@ -163,14 +159,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void addFragment(Fragment fragment, String title) {
-        viewPagerAdapter.addFragment(fragment, title);
+    public void setFragment(Fragment fragment, String title, int position) {
+        viewPagerAdapter.setFragment(fragment, title, position);
         viewPagerAdapter.notifyDataSetChanged();
     }
 
-    public void deleteFragments() {
-        viewPagerAdapter.deleteFragment(2);
-        viewPagerAdapter.deleteFragment(1);
+    public void addFragment(Fragment fragment, String title) {
+        viewPagerAdapter.addFragment(fragment, title);
         viewPagerAdapter.notifyDataSetChanged();
     }
 
@@ -200,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
         public void deleteFragment(int position) {
             fragments.remove(position);
             titles.remove(position);
+        }
+
+        public void setFragment(Fragment fragment, String title, int position) {
+            fragments.set(position, fragment);
+            titles.set(position, title);
         }
 
         @Override
