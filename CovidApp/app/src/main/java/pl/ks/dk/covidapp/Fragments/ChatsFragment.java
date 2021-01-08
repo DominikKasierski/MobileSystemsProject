@@ -57,27 +57,25 @@ public class ChatsFragment extends Fragment {
 
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usersList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                    usersList.add(chatlist);
+        if (firebaseUser != null) {
+            reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    usersList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                        usersList.add(chatlist);
+                    }
+                    chatList();
                 }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                chatList();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        updateToken(FirebaseInstanceId.getInstance().getToken());
-
+                }
+            });
+            updateToken(FirebaseInstanceId.getInstance().getToken());
+        }
         return view;
     }
 
@@ -98,7 +96,7 @@ public class ChatsFragment extends Fragment {
                     User user = snapshot.getValue(User.class);
                     for (Chatlist chatlist : usersList) {
                         try {
-                            if(user.getId().equals(chatlist.getId())) {
+                            if (user.getId().equals(chatlist.getId())) {
                                 mUsers.add(user);
                             }
                         } catch (NullPointerException e) {

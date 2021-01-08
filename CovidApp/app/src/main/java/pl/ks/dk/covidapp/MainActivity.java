@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                     }
-                    if (viewPagerAdapter.getCount() != 0) {
+                    if (viewPagerAdapter.getCount() != 0 && !role.equals("doctor")) {
                         if (isWaiting.equals("true")) {
                             setFragment(new WithoutDecisionTreeFragment(), "Diagnosis", 1);
                         } else {
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -138,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(new ChatsFragment(), "(" + unread + ") Chats", 0);
                     }
                 }
-
 
                 viewPager.setAdapter(viewPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);

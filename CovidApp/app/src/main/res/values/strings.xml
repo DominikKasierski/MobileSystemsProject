@@ -48,4 +48,5 @@
     <string name="message3">Your symptoms are really serious. You should contact with doctor as fast as it is possible!</string>
     <string name="contact_with_doctor">Contact with doctor</string>
     <string name="back_to_main">Back</string>
+    <string name="wait_for_doctor">Your report has been sent to the doctor. As soon as you receive a reply, it will appear in the CHATS tab.  Usually it takes a few hours.</string>
 </resources>

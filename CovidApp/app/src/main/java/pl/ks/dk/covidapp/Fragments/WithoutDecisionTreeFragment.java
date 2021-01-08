@@ -33,17 +33,7 @@ public class WithoutDecisionTreeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_without_decision_tree, container, false);
-        Button button = view.findViewById(R.id.wyl_diag);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("waitingForDiagnosis", "false");
-                reference.updateChildren(hashMap);
-            }
-        });
+
         return view;
     }
 
