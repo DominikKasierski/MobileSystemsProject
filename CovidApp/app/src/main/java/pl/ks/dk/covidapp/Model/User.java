@@ -12,9 +12,10 @@ public class User {
     private String status;
     private String search;
     private String role;
+    private String waitingForDiagnosis;
 
 
-    public User(String id, String name, String surname, String username, String pesel, String phoneNumber, String dateOfBirth, String imageURL, String status, String search, String role) {
+    public User(String id, String name, String surname, String username, String pesel, String phoneNumber, String dateOfBirth, String imageURL, String status, String search, String role, String waitingForDiagnosis) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -26,6 +27,7 @@ public class User {
         this.status = status;
         this.search = search;
         this.role = role;
+        this.waitingForDiagnosis = waitingForDiagnosis;
     }
 
     public User() {
@@ -61,5 +63,13 @@ public class User {
 
     public String getRole() {
         return role;
+    }
+
+    public String getWaitingForDiagnosis() {
+        return waitingForDiagnosis;
+    }
+
+    public void setWaitingForDiagnosis(String waitingForDiagnosis) {
+        this.waitingForDiagnosis = waitingForDiagnosis;
     }
 }

@@ -130,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     hashMap.put("status", "offline");
                     hashMap.put("search", username.toLowerCase());
                     hashMap.put("role", "patient");
+                    hashMap.put("waitingForDiagnosis", "false");
 
                     reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

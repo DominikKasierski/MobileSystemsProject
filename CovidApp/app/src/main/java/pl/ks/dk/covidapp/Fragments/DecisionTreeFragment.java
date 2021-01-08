@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,10 +16,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import pl.ks.dk.covidapp.MainActivity;
+import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
 
 public class DecisionTreeFragment extends Fragment {
@@ -26,54 +38,62 @@ public class DecisionTreeFragment extends Fragment {
     private List<Integer> answers;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
-    private Button btn_submit;
-    private boolean ifListContainsNumbersFromRange;
-    private final int min = 1;
-    private final int max = 5;
+    FirebaseUser firebaseUser;
+    DatabaseReference reference;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //pobrac zmienna z usera, jeśli 0 to wyswietla się całe okno diagnozy, jesli 1 to wyswietla sie tylko napis "Poczekaj az lekarz sie skontaktuje"
-        View view = inflater.inflate(R.layout.fragment_decision_tree, container, false);
-        btn_submit = view.findViewById(R.id.btn_submit);
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Integer[] ids = {R.id.radio_group1, R.id.radio_group2, R.id.radio_group3, R.id.radio_group4, R.id.radio_group5, R.id.radio_group6, R.id.radio_group7, R.id.radio_group8, R.id.radio_group9, R.id.radio_group10};
-                List<Integer> answers = new ArrayList<>();
+            View view = inflater.inflate(R.layout.fragment_decision_tree, container, false);
+        Button btn_submit = view.findViewById(R.id.btn_submit);
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer[] ids = {R.id.radio_group1, R.id.radio_group2, R.id.radio_group3, R.id.radio_group4, R.id.radio_group5, R.id.radio_group6, R.id.radio_group7, R.id.radio_group8, R.id.radio_group9, R.id.radio_group10};
+                    List<Integer> answers = new ArrayList<>();
 
-                for (Integer id : ids) {
-                    radioGroup = (RadioGroup) view.findViewById(id);
-                    radioButton = view.findViewById(radioGroup.getCheckedRadioButtonId());
-                    String tmp = radioButton.getTag().toString();
-                    answers.add(Integer.parseInt(tmp));
-                }
-
-                double score = calculateWeights(answers);
-
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Ustawic zmienna jakas w userze na 1
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
+                    for (Integer id : ids) {
+                        radioGroup = (RadioGroup) view.findViewById(id);
+                        radioButton = view.findViewById(radioGroup.getCheckedRadioButtonId());
+                        String tmp = radioButton.getTag().toString();
+                        answers.add(Integer.parseInt(tmp));
                     }
-                };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(getMessage(score)).setPositiveButton(getResources().getString(R.string.contact_with_doctor), dialogClickListener)
-                        .setNegativeButton(getResources().getString(R.string.back_to_main), dialogClickListener).show();
-            }
-        });
-        return view;
+                    double score = calculateWeights(answers);
+
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    changeIsWaitingForDiagnosis();
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(getMessage(score)).setPositiveButton(getResources().getString(R.string.contact_with_doctor), dialogClickListener)
+                            .setNegativeButton(getResources().getString(R.string.back_to_main), dialogClickListener).show();
+                }
+            });
+            return view;
+        }
+
+    private void changeIsWaitingForDiagnosis() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("waitingForDiagnosis", "true");
+        reference.updateChildren(hashMap);
     }
+
 
     private Double calculateWeights(List<Integer> answers) {
         double score = 0;
