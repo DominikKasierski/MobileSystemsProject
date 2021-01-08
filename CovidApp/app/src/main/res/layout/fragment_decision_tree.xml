@@ -31,13 +31,36 @@
             android:text="@string/question1"
             android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/answer1"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn3"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question2"
@@ -46,13 +69,36 @@
             android:paddingTop="15dp"
             android:text="@string/question2" />
 
-        <EditText
-            android:id="@+id/answer2"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn6"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question3"
@@ -61,13 +107,36 @@
             android:paddingTop="15dp"
             android:text="@string/question3" />
 
-        <EditText
-            android:id="@+id/answer3"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn9"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question4"
@@ -76,13 +145,36 @@
             android:paddingTop="15dp"
             android:text="@string/question4" />
 
-        <EditText
-            android:id="@+id/answer4"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn12"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question5"
@@ -91,13 +183,36 @@
             android:paddingTop="15dp"
             android:text="@string/question5" />
 
-        <EditText
-            android:id="@+id/answer5"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group5"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn15"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question6"
@@ -106,13 +221,36 @@
             android:paddingTop="15dp"
             android:text="@string/question6" />
 
-        <EditText
-            android:id="@+id/answer6"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn18"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question7"
@@ -121,13 +259,36 @@
             android:paddingTop="15dp"
             android:text="@string/question7" />
 
-        <EditText
-            android:id="@+id/answer7"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group7"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn21"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question8"
@@ -136,13 +297,36 @@
             android:paddingTop="15dp"
             android:text="@string/question8" />
 
-        <EditText
-            android:id="@+id/answer8"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group8"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn24"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question9"
@@ -151,13 +335,36 @@
             android:paddingTop="15dp"
             android:text="@string/question9" />
 
-        <EditText
-            android:id="@+id/answer9"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group9"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn27"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/question10"
@@ -166,13 +373,36 @@
             android:paddingTop="15dp"
             android:text="@string/question10" />
 
-        <EditText
-            android:id="@+id/answer10"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_group10"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/answer"
-            android:inputType="number" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="1"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/radio_btn29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:tag="0"
+                android:text="@string/no" />
+
+            <RadioButton
+                android:id="@+id/radio_btn30"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="0"
+                android:text="@string/not_sure" />
+        </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_submit"
