@@ -116,11 +116,14 @@ public class UsersFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         User user = snapshot.getValue(User.class);
 
-                        assert user != null;
-                        assert firebaseUser != null;
-                        if (!user.getId().equals(firebaseUser.getUid())) {
-                            mUsers.add(user);
+                        try {
+                            if (!user.getId().equals(firebaseUser.getUid())) {
+                                mUsers.add(user);
+                            }
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
                         }
+
                     }
 
                     userAdapter = new UserAdapter(getContext(), mUsers, false);
