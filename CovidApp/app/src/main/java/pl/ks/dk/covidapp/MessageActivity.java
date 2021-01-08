@@ -183,8 +183,9 @@ public class MessageActivity extends AppCompatActivity {
                 if (!dataSnapshot.exists()) {
                     chatRef.child("id").setValue(userid);
 
-                    //dodanie nowego chatu odbiorcy
+                    //dodanie nowego chatu pacjentowi oraz umozliwienie mu dodania nowego zgloszenia
                     updateReceiverChatList(userid, firebaseUser.getUid());
+                    updateWaitingForDiagnosis(userid);
                 }
             }
 
@@ -214,11 +215,18 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+    private void updateWaitingForDiagnosis(String patientId) {
+        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("waitingForDiagnosis", "false");
+        patientRef.updateChildren(hashMap);
+    }
+
     private void updateReceiverChatList(String receiverId, String senderId) {
-                            DatabaseReference secondChatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
-                            .child(receiverId)
-                            .child(senderId);
-                    secondChatRef.child("id").setValue(senderId);
+        DatabaseReference secondChatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(receiverId)
+                .child(senderId);
+        secondChatRef.child("id").setValue(senderId);
     }
 
     private void sendNotification(String receiver, final String username, final String message) {
@@ -229,29 +237,28 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(firebaseUser.getUid(), R.mipmap.ic_launcher, username+": "+message, "New Message", userid);
+                    Data data = new Data(firebaseUser.getUid(), R.mipmap.ic_launcher, username + ": " + message, "New Message", userid);
 
                     Sender sender = new Sender(data, token.getToken());
 
                     apiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {
-                        @Override
-                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                            if (response.code() == 200) {
-                                if (response.body().success != 1) {
-                                    Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if (response.code() == 200) {
+                                        if (response.body().success != 1) {
+                                            Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(Call<MyResponse> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
 
-                        }
-                    });
+                                }
+                            });
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

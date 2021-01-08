@@ -85,9 +85,6 @@ public class UsersFragment extends Fragment {
                 mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-
-                    assert user != null;
-                    assert firebaseUser != null;
                     if (!user.getId().equals(firebaseUser.getUid())) {
                         mUsers.add(user);
                     }
@@ -117,7 +114,7 @@ public class UsersFragment extends Fragment {
                         User user = snapshot.getValue(User.class);
 
                         try {
-                            if (!user.getId().equals(firebaseUser.getUid())) {
+                            if (!user.getId().equals(firebaseUser.getUid()) && user.getWaitingForDiagnosis().equals("true")) {
                                 mUsers.add(user);
                             }
                         } catch (NullPointerException e) {
