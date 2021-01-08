@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.ks.dk.covidapp.Adapter.ViewPagerAdapter;
 import pl.ks.dk.covidapp.Fragments.ChatsFragment;
 import pl.ks.dk.covidapp.Fragments.DecisionTreeFragment;
 import pl.ks.dk.covidapp.Fragments.ProfileFragment;
@@ -113,23 +114,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (unread == 0) {
-                    addFragment(new ChatsFragment(), "Chats");
-                } else {
-                    addFragment(new ChatsFragment(), "(" + unread + ") Chats");
-                }
-
-                if (role.equals("doctor")) {
-                    addFragment(new UsersFragment(), "Patients");
-                } else {
-                    if (isWaiting.equals("false")) {
-                        addFragment(new DecisionTreeFragment(), "Diagnosis");
+                if (viewPagerAdapter.getCount() == 0) {
+                    if (unread == 0) {
+                        addFragment(new ChatsFragment(), "Chats");
                     } else {
-                        addFragment(new WithoutDecisionTreeFragment(), "Diagnosis");
+                        addFragment(new ChatsFragment(), "(" + unread + ") Chats");
+                    }
+
+                    if (role.equals("doctor")) {
+                        addFragment(new UsersFragment(), "Patients");
+                    } else {
+                        if (isWaiting.equals("false")) {
+                            addFragment(new DecisionTreeFragment(), "Diagnosis");
+                        } else {
+                            addFragment(new WithoutDecisionTreeFragment(), "Diagnosis");
+                        }
+                    }
+                    addFragment(new ProfileFragment(), "Profile");
+                } else {
+                    if (unread == 0) {
+                        setFragment(new ChatsFragment(), "Chats", 0);
+                    } else {
+                        setFragment(new ChatsFragment(), "(" + unread + ") Chats", 0);
                     }
                 }
 
-                addFragment(new ProfileFragment(), "Profile");
 
                 viewPager.setAdapter(viewPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
@@ -150,80 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
+        if (item.getItemId() == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            return true;
         }
         return false;
-    }
-
-    public void setFragment(Fragment fragment, String title, int position) {
-        viewPagerAdapter.setFragment(fragment, title, position);
-        viewPagerAdapter.notifyDataSetChanged();
-    }
-
-    public void addFragment(Fragment fragment, String title) {
-        viewPagerAdapter.addFragment(fragment, title);
-        viewPagerAdapter.notifyDataSetChanged();
-    }
-
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
-
-        private final ArrayList<Fragment> fragments;
-        private final ArrayList<String> titles;
-        private long baseId = 0;
-
-        ViewPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-            this.fragments = new ArrayList<>();
-            this.titles = new ArrayList<>();
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            fragments.add(fragment);
-            titles.add(title);
-        }
-
-        public void deleteFragment(int position) {
-            fragments.remove(position);
-            titles.remove(position);
-        }
-
-        public void setFragment(Fragment fragment, String title, int position) {
-            fragments.set(position, fragment);
-            titles.set(position, title);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return ViewPagerAdapter.POSITION_NONE;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
-        }
-    }
-
-    private void status(String status) {
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
-        reference.updateChildren(hashMap);
     }
 
     @Override
@@ -236,6 +177,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         status("offline");
+    }
+
+    public void setFragment(Fragment fragment, String title, int position) {
+        viewPagerAdapter.setFragment(fragment, title, position);
+        viewPagerAdapter.notifyDataSetChanged();
+    }
+
+    public void addFragment(Fragment fragment, String title) {
+        viewPagerAdapter.addFragment(fragment, title);
+        viewPagerAdapter.notifyDataSetChanged();
+    }
+
+    private void status(String status) {
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+        reference.updateChildren(hashMap);
     }
 
 }
