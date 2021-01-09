@@ -267,3 +267,5 @@ public class ProfileFragment extends Fragment {
         }
     }
 }
+
+//TODO: numer telefonu inaczej wyświetlać

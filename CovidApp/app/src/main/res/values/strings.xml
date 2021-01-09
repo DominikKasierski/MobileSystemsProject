@@ -5,7 +5,7 @@
     <string name="register_error">You can not register with this email or password</string>
     <string name="login_error">Authentication failed</string>
     <string name="login">Login</string>
-    <string name="register">register</string>
+    <string name="register">register as patient</string>
     <string name="create_account">Create a new account</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
@@ -55,4 +55,5 @@
     <string name="required_length">Name and surname should be longer than 3 characters</string>
     <string name="email_error">Email should be longer than 4 characters and contains @</string>
     <string name="phone_error">Phone number should contain 9 numbers</string>
+    <string name="register_as_doctor">Register as doctor</string>
 </resources>
