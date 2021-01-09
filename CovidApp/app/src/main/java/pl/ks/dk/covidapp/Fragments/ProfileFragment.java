@@ -1,7 +1,9 @@
 package pl.ks.dk.covidapp.Fragments;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -91,13 +93,7 @@ public class ProfileFragment extends Fragment {
                     } else {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                     }
-                    username.setText(user.getUsername());
-                    role_value.setText(user.getRole().toUpperCase());
-                    name_value.setText(user.getName());
-                    surname_value.setText(user.getSurname());
-                    date_of_birth_value.setText(user.getDateOfBirth());
-                    pesel_profile_value.setText(user.getPesel());
-                    phone_number_profile_value.setText(user.getPhoneNumber());
+                    setEditTexts();
                 }
             }
 
@@ -111,14 +107,31 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                HashMap<String, Object> hashMap = new HashMap<>();
-                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC
-                hashMap.put("name", name_value.getText().toString());
-                hashMap.put("surname", surname_value.getText().toString());
-                hashMap.put("dateOfBirth", date_of_birth_value.getText().toString());
-                hashMap.put("pesel", pesel_profile_value.getText().toString());
-                hashMap.put("phoneNumber", phone_number_profile_value.getText().toString());
-                reference.updateChildren(hashMap);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC
+                                hashMap.put("name", name_value.getText().toString());
+                                hashMap.put("surname", surname_value.getText().toString());
+                                hashMap.put("dateOfBirth", date_of_birth_value.getText().toString());
+                                hashMap.put("pesel", pesel_profile_value.getText().toString());
+                                hashMap.put("phoneNumber", phone_number_profile_value.getText().toString());
+                                reference.updateChildren(hashMap);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                setEditTexts();
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
 
@@ -129,6 +142,16 @@ public class ProfileFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void setEditTexts() {
+        username.setText(user.getUsername());
+        role_value.setText(user.getRole().toUpperCase());
+        name_value.setText(user.getName());
+        surname_value.setText(user.getSurname());
+        date_of_birth_value.setText(user.getDateOfBirth());
+        pesel_profile_value.setText(user.getPesel());
+        phone_number_profile_value.setText(user.getPhoneNumber());
     }
 
     private void openImage() {
@@ -190,6 +213,12 @@ public class ProfileFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        setEditTexts();
     }
 
     @Override
