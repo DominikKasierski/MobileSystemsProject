@@ -50,4 +50,5 @@
     <string name="back_to_main">Back</string>
     <string name="wait_for_doctor">Your report has been sent to the doctor. As soon as you receive a reply, it will appear in the CHATS tab.  Usually it takes a few hours.</string>
     <string name="value">value</string>
+    <string name="edit">Edit</string>
 </resources>

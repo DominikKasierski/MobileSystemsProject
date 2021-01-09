@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +48,11 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
-    TextView username, role_value, name_value, surname_value, date_of_birth_value, pesel_profile_value, phone_number_profile_value;
+    TextView username, role_value;
+    EditText name_value, surname_value, date_of_birth_value, pesel_profile_value, phone_number_profile_value;
+    Button edit_button;
+    User user;
+
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -69,17 +75,17 @@ public class ProfileFragment extends Fragment {
         date_of_birth_value = view.findViewById(R.id.date_of_birth_value);
         pesel_profile_value = view.findViewById(R.id.pesel_profile_value);
         phone_number_profile_value = view.findViewById(R.id.phone_number_profile_value);
+        edit_button = view.findViewById(R.id.edit_button);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(isAdded()) {
-                    User user = dataSnapshot.getValue(User.class);
+                    user = dataSnapshot.getValue(User.class);
                     if (user.getImageURL().equals("default")) {
                         image_profile.setImageResource(R.mipmap.ic_launcher);
                     } else {
@@ -98,6 +104,21 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                HashMap<String, Object> hashMap = new HashMap<>();
+                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC
+                hashMap.put("name", name_value.getText().toString());
+                hashMap.put("surname", surname_value.getText().toString());
+                hashMap.put("dateOfBirth", date_of_birth_value.getText().toString());
+                hashMap.put("pesel", pesel_profile_value.getText().toString());
+                hashMap.put("phoneNumber", phone_number_profile_value.getText().toString());
+                reference.updateChildren(hashMap);
             }
         });
 

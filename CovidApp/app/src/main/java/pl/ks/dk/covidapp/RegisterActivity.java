@@ -97,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                 boolean valid = Stream.of(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)
                         .allMatch(StringUtils::isNotBlank);
 
+//                TODO:WALIDACJA PESEL
                 if (!valid) {
                     Toast.makeText(RegisterActivity.this, R.string.required_fields, Toast.LENGTH_SHORT).show();
                 } else if (txt_password.length() < 8) {

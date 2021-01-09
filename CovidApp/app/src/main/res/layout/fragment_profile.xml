@@ -16,19 +16,20 @@
             android:layout_height="wrap_content"
             android:padding="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile"
-                android:textColor="@color/design_default_color_primary_dark"
-                android:textStyle="bold" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/edit_button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/teal_700"
+                android:text="@string/edit" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
@@ -76,18 +77,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <EditText
                     android:id="@+id/name_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="50dp"
                     android:text="@string/value"
                     android:textColor="@color/teal_700"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/name"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/name" />
 
                 <TextView
                     android:id="@+id/surname"
@@ -102,18 +103,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/name" />
 
-                <TextView
+                <EditText
                     android:id="@+id/surname_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="25dp"
                     android:text="@string/value"
                     android:textColor="@color/teal_700"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/surname"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/name_value" />
+                    app:layout_constraintTop_toTopOf="@+id/surname" />
 
                 <TextView
                     android:id="@+id/date_of_birth"
@@ -128,18 +129,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/surname" />
 
-                <TextView
+                <EditText
                     android:id="@+id/date_of_birth_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="25dp"
                     android:text="@string/value"
                     android:textColor="@color/teal_700"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/date_of_birth"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/surname_value" />
+                    app:layout_constraintTop_toTopOf="@+id/date_of_birth" />
 
                 <TextView
                     android:id="@+id/pesel_profile"
@@ -154,19 +155,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/date_of_birth" />
 
-                <TextView
+
+                <EditText
                     android:id="@+id/pesel_profile_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="25dp"
                     android:text="@string/value"
                     android:textColor="@color/teal_700"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/pesel_profile"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/date_of_birth_value" />
-
+                    app:layout_constraintTop_toTopOf="@+id/pesel_profile" />
 
                 <TextView
                     android:id="@+id/phone_number_profile"
@@ -181,18 +182,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pesel_profile" />
 
-                <TextView
+                <EditText
                     android:id="@+id/phone_number_profile_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="25dp"
                     android:text="@string/value"
                     android:textColor="@color/teal_700"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/phone_number_profile"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/pesel_profile_value" />
+                    app:layout_constraintTop_toTopOf="@+id/phone_number_profile" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline5"
