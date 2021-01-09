@@ -1,6 +1,7 @@
 package pl.ks.dk.covidapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -44,16 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
-    String role;
-    String isWaiting;
+    String role = "patient";
+    String isWaiting = "false";
+    boolean changed = false;
     ViewPagerAdapter viewPagerAdapter;
     TabLayout tabLayout;
     ViewPager viewPager;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-
-//TODO: JAK LEKARZ NAPISZ TO MOZNA ZNOWU WYSLAC PYTANIA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 if (user != null) {
                     role = user.getRole();
-                    isWaiting = user.getWaitingForDiagnosis();
+                    if (!role.equals("doctor")) {
+                        isWaitingChanged(user.getWaitingForDiagnosis());
+                    }
                     username.setText(user.getUsername());
                     if (user.getImageURL().equals("default")) {
                         profile_image.setImageResource(R.mipmap.ic_launcher);
                     } else {
                         Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                     }
-                    if (viewPagerAdapter.getCount() != 0 && !role.equals("doctor")) {
+                    if (viewPagerAdapter.getCount() != 0 && changed) {
                         if (isWaiting.equals("true")) {
                             setFragment(new WithoutDecisionTreeFragment(), "Diagnosis", 1);
                         } else {
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -175,6 +179,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         status("offline");
+    }
+
+
+    private void isWaitingChanged(String isWaiting) {
+        if (!this.isWaiting.equals(isWaiting)) {
+            changed = true;
+            this.isWaiting = isWaiting;
+        } else {
+            changed = false;
+        }
     }
 
     public void setFragment(Fragment fragment, String title, int position) {

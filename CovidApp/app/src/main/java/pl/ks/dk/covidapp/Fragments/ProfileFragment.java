@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,12 +80,12 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(isAdded()) {
                     User user = dataSnapshot.getValue(User.class);
-                    username.setText(user.getUsername());
                     if (user.getImageURL().equals("default")) {
                         image_profile.setImageResource(R.mipmap.ic_launcher);
                     } else {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                     }
+                    username.setText(user.getUsername());
                     role_value.setText(user.getRole().toUpperCase());
                     name_value.setText(user.getName());
                     surname_value.setText(user.getSurname());

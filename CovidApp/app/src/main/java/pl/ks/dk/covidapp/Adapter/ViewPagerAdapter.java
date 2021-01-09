@@ -35,6 +35,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         titles.set(position, title);
     }
 
+    public void deleteFragments() {
+        fragments.remove(2);
+        titles.remove(2);
+        fragments.remove(1);
+        titles.remove(1);
+    }
+
     @Override
     public int getCount() {
         return fragments.size();
