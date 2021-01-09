@@ -1,6 +1,7 @@
 package pl.ks.dk.covidapp.Fragments;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -13,11 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,11 +42,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
+import pl.ks.dk.covidapp.RegisterActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -54,6 +60,8 @@ public class ProfileFragment extends Fragment {
     EditText name_value, surname_value, date_of_birth_value, pesel_profile_value, phone_number_profile_value;
     Button edit_button;
     User user;
+
+    DatePickerDialog pickerDialog;
 
 
     DatabaseReference reference;
@@ -100,6 +108,29 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        date_of_birth_value.setInputType(InputType.TYPE_NULL);
+        date_of_birth_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                pickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        date_of_birth_value.setText(date);
+                    }
+                }, year, month, day);
+
+                long maxTime = new Date().getTime();
+                pickerDialog.getDatePicker().setMaxDate(maxTime);
+                pickerDialog.show();
             }
         });
 
