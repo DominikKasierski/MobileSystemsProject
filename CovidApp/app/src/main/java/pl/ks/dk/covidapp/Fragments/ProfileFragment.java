@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
-    TextView username;
+    TextView username, role_value, name_value, surname_value, date_of_birth_value, pesel_profile_value, phone_number_profile_value;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -62,6 +62,12 @@ public class ProfileFragment extends Fragment {
 
         image_profile = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.username);
+        role_value = view.findViewById(R.id.role);
+        name_value = view.findViewById(R.id.name_value);
+        surname_value = view.findViewById(R.id.surname_value);
+        date_of_birth_value = view.findViewById(R.id.date_of_birth_value);
+        pesel_profile_value = view.findViewById(R.id.pesel_profile_value);
+        phone_number_profile_value = view.findViewById(R.id.phone_number_profile_value);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -79,6 +85,12 @@ public class ProfileFragment extends Fragment {
                     } else {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                     }
+                    role_value.setText(user.getRole().toUpperCase());
+                    name_value.setText(user.getName());
+                    surname_value.setText(user.getSurname());
+                    date_of_birth_value.setText(user.getDateOfBirth());
+                    pesel_profile_value.setText(user.getPesel());
+                    phone_number_profile_value.setText(user.getPhoneNumber());
                 }
             }
 

@@ -185,8 +185,8 @@ public class MessageActivity extends AppCompatActivity {
 
                     //dodanie nowego chatu pacjentowi oraz umozliwienie mu dodania nowego zgloszenia
                     updateReceiverChatList(userid, firebaseUser.getUid());
-                    updateWaitingForDiagnosis(userid);
                 }
+                updateWaitingForDiagnosis(userid);
             }
 
             @Override

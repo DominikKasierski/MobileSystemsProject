@@ -72,4 +72,24 @@ public class User {
     public void setWaitingForDiagnosis(String waitingForDiagnosis) {
         this.waitingForDiagnosis = waitingForDiagnosis;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
 }
