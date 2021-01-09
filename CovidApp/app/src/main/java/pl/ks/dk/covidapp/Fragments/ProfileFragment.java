@@ -113,7 +113,7 @@ public class ProfileFragment extends Fragment {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC
+                                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC, DIALOG DO OSOBNEJ KLASY I OGARNAC WYGLAD OBU
                                 hashMap.put("name", name_value.getText().toString());
                                 hashMap.put("surname", surname_value.getText().toString());
                                 hashMap.put("dateOfBirth", date_of_birth_value.getText().toString());

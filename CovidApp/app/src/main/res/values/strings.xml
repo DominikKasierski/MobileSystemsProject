@@ -51,4 +51,8 @@
     <string name="wait_for_doctor">Your report has been sent to the doctor. As soon as you receive a reply, it will appear in the CHATS tab.  Usually it takes a few hours.</string>
     <string name="value">value</string>
     <string name="edit">Edit</string>
+    <string name="pesel_error">PESEL checksum error!</string>
+    <string name="required_length">Name and surname should be longer than 3 characters</string>
+    <string name="email_error">Email should be longer than 4 characters and contains @</string>
+    <string name="phone_error">Phone number should contain 9 numbers</string>
 </resources>

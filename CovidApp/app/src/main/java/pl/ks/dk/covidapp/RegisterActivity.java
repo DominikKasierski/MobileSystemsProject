@@ -24,9 +24,12 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -94,22 +97,83 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_phone_number = phoneNumber.getText().toString();
                 String txt_date_of_birth = dateOfBirth.getText().toString();
 
-                boolean valid = Stream.of(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)
-                        .allMatch(StringUtils::isNotBlank);
-
-//                TODO:WALIDACJA PESEL
-                if (!valid) {
-                    Toast.makeText(RegisterActivity.this, R.string.required_fields, Toast.LENGTH_SHORT).show();
-                } else if (txt_password.length() < 8) {
-                    Toast.makeText(RegisterActivity.this, R.string.required_length_password, Toast.LENGTH_SHORT).show();
-                } else {
+//                TODO:MAIL DLA LEKARZY, ZEBY SIE MOGLI ZAREJESTROWAC
+                if (dataValidation(txt_name, txt_surname, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)) {
                     register(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth);
                 }
+
             }
         });
     }
 
-    private void register(String name, String surname, String username, String email, String password, String pesel, String phoneNumber, String dateOfBirth) {
+    private boolean dataValidation(String name, String surname, String email, String password, String pesel, String phone, String date) {
+        if (!checkIfRequired(name, surname, email, password, pesel, phone, date)) {
+            Toast.makeText(RegisterActivity.this, R.string.required_fields, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!checkStringsLengths(name, surname)) {
+            Toast.makeText(RegisterActivity.this, R.string.required_length, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!checkEmail(email)) {
+            Toast.makeText(RegisterActivity.this, R.string.email_error, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!checkPhone(phone)) {
+            Toast.makeText(RegisterActivity.this, R.string.phone_error, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!checkPassword(password)) {
+            Toast.makeText(RegisterActivity.this, R.string.required_length_password, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!checkPesel(pesel)) {
+            Toast.makeText(RegisterActivity.this, R.string.pesel_error, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkPhone(String phone) {
+        return phone.length() == 9;
+    }
+
+    private boolean checkEmail(String email) {
+        if (email.length() > 4) {
+            return email.contains("@");
+        }
+        return false;
+    }
+
+    private boolean checkStringsLengths(String name, String surname) {
+        return Stream.of(name, surname)
+                .allMatch(s -> s.length() > 3);
+    }
+
+    private boolean checkPesel(String pesel) {
+        List<Integer> list = Arrays.asList(1, 3, 7, 9, 1, 3, 7, 9, 1, 3);
+        if (pesel.length() == 11) {
+            int sum = 0;
+            for (int i = 0; i < list.size(); i++) {
+                sum += (Integer.parseInt(String.valueOf(pesel.charAt(i))) % 10) * list.get(i);
+            }
+            return (10 - (sum % 10)) == pesel.charAt(10);
+        }
+        return false;
+    }
+
+    private boolean checkPassword(String password) {
+        return password.length() >= 8;
+    }
+
+    private boolean checkIfRequired(String name, String surname, String
+            email, String password, String pesel, String phone, String date) {
+        return Stream.of(name, surname, email, password, pesel, phone, date)
+                .allMatch(StringUtils::isNotBlank);
+    }
+
+    private void register(String name, String surname, String username, String email, String
+            password, String pesel, String phoneNumber, String dateOfBirth) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
