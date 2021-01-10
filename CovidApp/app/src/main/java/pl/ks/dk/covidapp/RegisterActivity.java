@@ -97,7 +97,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String txt_phone_number = phoneNumber.getText().toString();
                 String txt_date_of_birth = dateOfBirth.getText().toString();
 
-//                TODO:MAIL DLA LEKARZY, ZEBY SIE MOGLI ZAREJESTROWAC
                 if (dataValidation(txt_name, txt_surname, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth)) {
                     register(txt_name, txt_surname, txt_username, txt_email, txt_password, txt_pesel, txt_phone_number, txt_date_of_birth);
                 }

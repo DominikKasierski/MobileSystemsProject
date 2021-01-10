@@ -39,6 +39,8 @@
     <string name="question10">Do you have diarrhoea?</string>
     <string name="answer">Answer</string>
     <string name="confirm">Confirm</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="diagnosis">Diagnosis</string>
     <string name="number_range">Numbers should be between 1 and 5</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

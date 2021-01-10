@@ -79,7 +79,9 @@ public class DecisionTreeFragment extends Fragment {
                     };
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage(getMessage(score)).setPositiveButton(getResources().getString(R.string.contact_with_doctor), dialogClickListener)
+                    builder.setTitle(getResources().getString(R.string.diagnosis))
+                            .setMessage(getMessage(score))
+                            .setPositiveButton(getResources().getString(R.string.contact_with_doctor), dialogClickListener)
                             .setNegativeButton(getResources().getString(R.string.back_to_main), dialogClickListener).show();
                 }
             });

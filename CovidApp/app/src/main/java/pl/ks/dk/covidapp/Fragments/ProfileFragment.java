@@ -144,7 +144,6 @@ public class ProfileFragment extends Fragment {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                //TODO:ALBO BEZ DATY ALBO JA SPRAWDZIC, DIALOG DO OSOBNEJ KLASY I OGARNAC WYGLAD OBU
                                 hashMap.put("name", name_value.getText().toString());
                                 hashMap.put("surname", surname_value.getText().toString());
                                 hashMap.put("dateOfBirth", date_of_birth_value.getText().toString());
@@ -161,8 +160,10 @@ public class ProfileFragment extends Fragment {
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+                builder.setTitle(getResources().getString(R.string.confirm))
+                        .setMessage(getResources().getString(R.string.are_you_sure))
+                        .setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
             }
         });
 
