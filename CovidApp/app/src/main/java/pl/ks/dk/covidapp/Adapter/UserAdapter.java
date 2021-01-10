@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
@@ -19,21 +21,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.ks.dk.covidapp.MessageActivity;
 import pl.ks.dk.covidapp.Model.Chat;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
+import pl.ks.dk.covidapp.RegisterActivity;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private Context mContext;
-    private List<User> mUsers;
-    private boolean ischat;
+    private final Context mContext;
+    private final List<User> mUsers;
+    private final boolean ischat;
 
     String theLastMessage;
 
@@ -52,7 +57,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         User user = mUsers.get(position);
         holder.username.setText(user.getUsername());
         if (user.getImageURL().equals("default")) {
@@ -62,9 +66,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         if (ischat) {
-           lastMessage(user.getId(), holder.last_msg);
+            lastMessage(user.getId(), holder.last_msg);
+            holder.show_answers.setVisibility(View.GONE);
         } else {
             holder.last_msg.setVisibility(View.GONE);
+            holder.show_answers.setVisibility(View.VISIBLE);
         }
 
         if (ischat) {
@@ -89,6 +95,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
 
+        holder.show_answers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> answers = new ArrayList<>();
+                List<String> questions = new ArrayList<>();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Diagnosis").child(user.getId());
+                Query query = reference.orderByKey();
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            answers.add((String) child.getValue());
+                            questions.add(child.getKey());
+                        }
+//                        TODO:DOKONCZYC
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -99,18 +130,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
         public ImageView profile_image;
-        private ImageView img_on;
-        private ImageView img_off;
-        private TextView last_msg;
+        private final ImageView img_on;
+        private final ImageView img_off;
+        private final TextView last_msg;
+        private final Button show_answers;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             username = itemView.findViewById(R.id.username);
             profile_image = itemView.findViewById(R.id.profile_image);
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
+            show_answers = itemView.findViewById(R.id.answer_button);
         }
     }
 

@@ -35,7 +35,6 @@ import pl.ks.dk.covidapp.R;
 
 public class DecisionTreeFragment extends Fragment {
 
-    private List<Integer> answers;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     FirebaseUser firebaseUser;
@@ -69,6 +68,7 @@ public class DecisionTreeFragment extends Fragment {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     changeIsWaitingForDiagnosis();
+                                    saveDiagnosisInDatabase(answers);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -114,5 +114,17 @@ public class DecisionTreeFragment extends Fragment {
         } else {
             return getResources().getString(R.string.message3);
         }
+    }
+
+    private void saveDiagnosisInDatabase(List<Integer> answers) {
+//        TODO:OGARNAC KLUCZE
+        reference = FirebaseDatabase.getInstance().getReference("Diagnosis").child(firebaseUser.getUid());
+        Integer[] ids = {R.string.question1, R.string.question2, R.string.question3, R.string.question4, R.string.question5, R.string.question6, R.string.question7, R.string.question8, R.string.question9, R.string.question10};
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        for (int i = 0; i < 10; i++) {
+            hashMap.put(getResources().getString(ids[i]), answers.get(i).toString());
+        }
+        reference.setValue(hashMap);
     }
 }
