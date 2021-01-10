@@ -117,7 +117,6 @@ public class DecisionTreeFragment extends Fragment {
     }
 
     private void saveDiagnosisInDatabase(List<Integer> answers) {
-//        TODO:OGARNAC KLUCZE
         reference = FirebaseDatabase.getInstance().getReference("Diagnosis").child(firebaseUser.getUid());
         Integer[] ids = {R.string.question1, R.string.question2, R.string.question3, R.string.question4, R.string.question5, R.string.question6, R.string.question7, R.string.question8, R.string.question9, R.string.question10};
         HashMap<String, Object> hashMap = new HashMap<>();

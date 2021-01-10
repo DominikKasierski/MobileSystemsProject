@@ -34,6 +34,7 @@ import pl.ks.dk.covidapp.Model.Chat;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
 import pl.ks.dk.covidapp.RegisterActivity;
+import pl.ks.dk.covidapp.ShowDiagnosis;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context mContext;
@@ -98,8 +99,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.show_answers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> answers = new ArrayList<>();
-                List<String> questions = new ArrayList<>();
+                ArrayList<String> answers = new ArrayList<>();
+                ArrayList<String> questions = new ArrayList<>();
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Diagnosis").child(user.getId());
                 Query query = reference.orderByKey();
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -110,6 +111,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                             questions.add(child.getKey());
                         }
 //                        TODO:DOKONCZYC
+                        Intent intent = new Intent(mContext, ShowDiagnosis.class);
+                        intent.putStringArrayListExtra("ANSWERS", answers);
+                        intent.putStringArrayListExtra("QUESTIONS", questions);
+                        intent.putExtra("NAME", user.getName());
+                        intent.putExtra("SURNAME", user.getSurname());
+                        mContext.startActivity(intent);
                     }
 
                     @Override

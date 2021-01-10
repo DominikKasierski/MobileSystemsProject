@@ -30,11 +30,11 @@
     <string name="question1">Do you have a fever?</string>
     <string name="question2">Do you have a dry cough?</string>
     <string name="question3">Are you tired?</string>
-    <string name="question4">Do you notice sputum when you cough?</string>
+    <string name="question4">Do you feel sputum when coughing?</string>
     <string name="question5">Do you have shortness of breath?</string>
     <string name="question6">Do you have muscle aches?</string>
     <string name="question7">Do you have sore throat?</string>
-    <string name="question8">Do you have a new or unusual headache?</string>
+    <string name="question8">Do you have unusual headache?</string>
     <string name="question9">Do you have chills?</string>
     <string name="question10">Do you have diarrhoea?</string>
     <string name="answer">Answer</string>
@@ -58,4 +58,5 @@
     <string name="email_error">Email should be longer than 4 characters and contains @</string>
     <string name="phone_error">Phone number should contain 9 numbers</string>
     <string name="register_as_doctor">Register as doctor</string>
+    <string name="back">Back</string>
 </resources>
