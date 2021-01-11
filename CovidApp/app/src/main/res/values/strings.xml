@@ -59,4 +59,5 @@
     <string name="phone_error">Phone number should contain 9 numbers</string>
     <string name="register_as_doctor">Register as doctor</string>
     <string name="back">Back</string>
+    <string name="show_answers">Show answers</string>
 </resources>
