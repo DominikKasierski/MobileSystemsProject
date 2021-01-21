@@ -156,7 +156,9 @@ public class RegisterActivity extends AppCompatActivity {
             for (int i = 0; i < list.size(); i++) {
                 sum += (Integer.parseInt(String.valueOf(pesel.charAt(i))) % 10) * list.get(i);
             }
-            return (10 - (sum % 10)) == pesel.charAt(10);
+//            char cd = pesel.charAt(10);
+//            int x = 10 - (sum % 10);
+            return (10 - (sum % 10)) == (pesel.charAt(10)-'0');
         }
         return false;
     }
