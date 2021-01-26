@@ -12,7 +12,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -49,7 +48,6 @@ import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
-import pl.ks.dk.covidapp.RegisterActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,7 +56,7 @@ public class ProfileFragment extends Fragment {
     CircleImageView image_profile;
     TextView username, role_value;
     EditText name_value, surname_value, date_of_birth_value, pesel_profile_value, phone_number_profile_value;
-    Button edit_button;
+    Button save_button, edit_button;
     User user;
 
     DatePickerDialog pickerDialog;
@@ -85,6 +83,7 @@ public class ProfileFragment extends Fragment {
         date_of_birth_value = view.findViewById(R.id.date_of_birth_value);
         pesel_profile_value = view.findViewById(R.id.pesel_profile_value);
         phone_number_profile_value = view.findViewById(R.id.phone_number_profile_value);
+        save_button = view.findViewById(R.id.save_button);
         edit_button = view.findViewById(R.id.edit_button);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
@@ -137,6 +136,13 @@ public class ProfileFragment extends Fragment {
         edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editMode();
+            }
+        });
+
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -174,6 +180,26 @@ public class ProfileFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void editMode() {
+        save_button.setVisibility(View.VISIBLE);
+        edit_button.setVisibility(View.INVISIBLE);
+        name_value.setEnabled(true);
+        surname_value.setEnabled(true);
+        date_of_birth_value.setEnabled(true);
+        pesel_profile_value.setEnabled(true);
+        phone_number_profile_value.setEnabled(true);
+    }
+
+    private void notEditMode() {
+        save_button.setVisibility(View.INVISIBLE);
+        edit_button.setVisibility(View.VISIBLE);
+        name_value.setEnabled(false);
+        surname_value.setEnabled(false);
+        date_of_birth_value.setEnabled(false);
+        pesel_profile_value.setEnabled(false);
+        phone_number_profile_value.setEnabled(false);
     }
 
     private void setEditTexts() {
@@ -251,6 +277,7 @@ public class ProfileFragment extends Fragment {
     public void onPause() {
         super.onPause();
         setEditTexts();
+        notEditMode();
     }
 
     @Override
