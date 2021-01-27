@@ -20,7 +20,9 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".ShowDiagnosis" />
         <activity
             android:name=".RegisterActivity"
