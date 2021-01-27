@@ -162,6 +162,7 @@ public class ProfileFragment extends Fragment {
                                 setEditTexts();
                                 break;
                         }
+                        notEditMode();
                     }
                 };
 
