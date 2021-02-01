@@ -99,7 +99,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                if (user.getWaitingForDiagnosis().equals("true")) {
+                                if (checkIfStillWaiting(user.getId())) {
                                     updateWaitingForDiagnosis(user.getId());
                                     Intent intent = new Intent(mContext, MessageActivity.class);
                                     intent.putExtra("userid", user.getId());
@@ -221,5 +221,30 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("waitingForDiagnosis", "false");
         patientRef.updateChildren(hashMap);
+    }
+
+    private boolean checkIfStillWaiting(String patientId) {
+        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
+        final boolean[] isWaiting = new boolean[1];
+        Query query = patientRef.orderByKey();
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    if (child.child("waitingForDiagnosis").getValue().equals("true")) {
+                        isWaiting[0] = true;
+                    } else {
+                        isWaiting[0] = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return isWaiting[0];
     }
 }
