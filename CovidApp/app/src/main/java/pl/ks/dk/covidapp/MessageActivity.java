@@ -186,7 +186,6 @@ public class MessageActivity extends AppCompatActivity {
                     //dodanie nowego chatu pacjentowi oraz umozliwienie mu dodania nowego zgloszenia
                     updateReceiverChatList(userid, firebaseUser.getUid());
                 }
-                updateWaitingForDiagnosis(userid);
             }
 
             @Override
@@ -213,13 +212,6 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void updateWaitingForDiagnosis(String patientId) {
-        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("waitingForDiagnosis", "false");
-        patientRef.updateChildren(hashMap);
     }
 
     private void updateReceiverChatList(String receiverId, String senderId) {

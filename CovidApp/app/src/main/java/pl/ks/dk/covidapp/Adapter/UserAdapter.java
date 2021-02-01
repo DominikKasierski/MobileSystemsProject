@@ -1,6 +1,8 @@
 package pl.ks.dk.covidapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import pl.ks.dk.covidapp.MessageActivity;
@@ -34,6 +37,7 @@ import pl.ks.dk.covidapp.Model.Chat;
 import pl.ks.dk.covidapp.Model.User;
 import pl.ks.dk.covidapp.R;
 import pl.ks.dk.covidapp.RegisterActivity;
+import pl.ks.dk.covidapp.ResetPasswordActivity;
 import pl.ks.dk.covidapp.ShowDiagnosis;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -90,9 +94,32 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userid", user.getId());
-                mContext.startActivity(intent);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                if (user.getWaitingForDiagnosis().equals("true")) {
+                                    updateWaitingForDiagnosis(user.getId());
+                                    Intent intent = new Intent(mContext, MessageActivity.class);
+                                    intent.putExtra("userid", user.getId());
+                                    mContext.startActivity(intent);
+                                } else {
+                                    Toast.makeText(mContext, "Unfortunately, this ticket has been already taken.", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle(mContext.getResources().getString(R.string.confirmation))
+                        .setMessage(mContext.getResources().getString(R.string.take_patient))
+                        .setPositiveButton(mContext.getResources().getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(mContext.getResources().getString(R.string.no), dialogClickListener).show();
             }
         });
 
@@ -110,7 +137,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                             answers.add((String) child.getValue());
                             questions.add(child.getKey());
                         }
-//                        TODO:DOKONCZYC
                         Intent intent = new Intent(mContext, ShowDiagnosis.class);
                         intent.putStringArrayListExtra("ANSWERS", answers);
                         intent.putStringArrayListExtra("QUESTIONS", questions);
@@ -188,5 +214,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    private void updateWaitingForDiagnosis(String patientId) {
+        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("waitingForDiagnosis", "false");
+        patientRef.updateChildren(hashMap);
     }
 }
