@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +34,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import pl.ks.dk.covidapp.MessageActivity;
 import pl.ks.dk.covidapp.Model.Chat;
@@ -44,7 +49,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context mContext;
     private final List<User> mUsers;
     private final boolean ischat;
-    private String isWaiting;
+    private final AtomicBoolean isWaiting = new AtomicBoolean(false);
 
     String theLastMessage;
 
@@ -100,14 +105,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                if (checkIfStillWaiting(user.getId())) {
-                                    updateWaitingForDiagnosis(user.getId());
-                                    Intent intent = new Intent(mContext, MessageActivity.class);
-                                    intent.putExtra("userid", user.getId());
-                                    mContext.startActivity(intent);
-                                } else {
-                                    Toast.makeText(mContext, "Unfortunately, this ticket has been already taken.", Toast.LENGTH_SHORT).show();
-                                }
+                                checkIfStillWaiting(user.getId());
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -224,22 +222,34 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         patientRef.updateChildren(hashMap);
     }
 
-    private boolean checkIfStillWaiting(String patientId) {
-        isWaiting = "";
+    private void checkIfStillWaiting(String patientId) {
+        isWaiting.set(false);
         DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
-        Query query = patientRef.orderByKey();
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String dupa = (String) snapshot.child("waitingForDiagnosis").getValue();
-                isWaiting = dupa;
+                String waitingForDiagnosis = (String) snapshot.child("waitingForDiagnosis").getValue();
+                if (waitingForDiagnosis.equals("true")) {
+                    isWaiting.set(true);
+                }
+                startActivityOrShowToast(patientId);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
-        });
-        return isWaiting.equals("true");
+        };
+        patientRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void startActivityOrShowToast(String patientId) {
+        if (isWaiting.get()) {
+            updateWaitingForDiagnosis(patientId);
+            Intent intent = new Intent(mContext, MessageActivity.class);
+            intent.putExtra("userid", patientId);
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "Unfortunately, this ticket has been already taken.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
