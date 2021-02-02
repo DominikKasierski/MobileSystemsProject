@@ -100,25 +100,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                checkIfStillWaiting(user.getId());
-                                break;
+                if (ischat) {
+                    startActivity(user.getId());
+                } else {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    checkIfStillWaiting(user.getId());
+                                    break;
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
                         }
-                    }
-                };
+                    };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle(mContext.getResources().getString(R.string.confirmation))
-                        .setMessage(mContext.getResources().getString(R.string.take_patient))
-                        .setPositiveButton(mContext.getResources().getString(R.string.yes), dialogClickListener)
-                        .setNegativeButton(mContext.getResources().getString(R.string.no), dialogClickListener).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle(mContext.getResources().getString(R.string.confirmation))
+                            .setMessage(mContext.getResources().getString(R.string.take_patient))
+                            .setPositiveButton(mContext.getResources().getString(R.string.yes), dialogClickListener)
+                            .setNegativeButton(mContext.getResources().getString(R.string.no), dialogClickListener).show();
+                }
             }
         });
 
@@ -251,5 +255,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         } else {
             Toast.makeText(mContext, "Unfortunately, this ticket has been already taken.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void startActivity(String patientId) {
+        Intent intent = new Intent(mContext, MessageActivity.class);
+        intent.putExtra("userid", patientId);
+        mContext.startActivity(intent);
     }
 }
