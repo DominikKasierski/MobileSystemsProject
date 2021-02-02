@@ -44,6 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context mContext;
     private final List<User> mUsers;
     private final boolean ischat;
+    private String isWaiting;
 
     String theLastMessage;
 
@@ -224,19 +225,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     private boolean checkIfStillWaiting(String patientId) {
+        isWaiting = "";
         DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference("Users").child(patientId);
-        final boolean[] isWaiting = new boolean[1];
         Query query = patientRef.orderByKey();
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot child : snapshot.getChildren()) {
-                    if (child.child("waitingForDiagnosis").getValue().equals("true")) {
-                        isWaiting[0] = true;
-                    } else {
-                        isWaiting[0] = false;
-                    }
-                }
+                String dupa = (String) snapshot.child("waitingForDiagnosis").getValue();
+                isWaiting = dupa;
             }
 
             @Override
@@ -244,7 +240,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
-
-        return isWaiting[0];
+        return isWaiting.equals("true");
     }
 }
