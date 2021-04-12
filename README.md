@@ -2,5 +2,5 @@
 Introduction to mobile systems - project
 
 Authors:  
-Krzysztof Sześniak  
+Krzysztof Szcześniak  
 Dominik Kasierski
